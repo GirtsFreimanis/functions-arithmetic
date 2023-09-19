@@ -1,14 +1,11 @@
 <?php
 
 //function to determine which guns can the person purchase
-function checkGunPurchase(stdClass $person, array $guns):void{
-    foreach($guns as $gun){
+function checkGunPurchase(stdClass $person, stdClass $gun):bool{
         if(in_array($gun->license,$person->licenses)&&$gun->price<$person->money){
-            echo "$person->name is able to purchase $gun->name\n";
-        }else{
-            echo "$person->name can't purchase $gun->name\n";
+            return true;
         }
-    }
+    return false;
 }
 //creation of person
 $person=new stdClass();
@@ -31,4 +28,10 @@ $guns=[
     createGun("Remington 700","L",699.00),
 ];
 //calling function to check which guns can person purchase
-checkGunPurchase($person,$guns);
+foreach($guns as $gun){
+    if(checkGunPurchase($person,$gun)){
+        echo "$person->name is able to purchase $gun->name for $gun->price\n";
+    }else{
+        echo "$person->name can't purchase $gun->name\n";
+    }
+}
